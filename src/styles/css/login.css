@@ -1,0 +1,10 @@
+#show_hide_password{
+    position: relative;
+}
+
+.input-group-addon{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+}
