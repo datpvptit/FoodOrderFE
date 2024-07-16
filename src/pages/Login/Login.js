@@ -25,6 +25,36 @@ const Login = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const fetchPayment = async (listOrderId) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: {
+          "PrintBTWAction": {
+            "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
+            "Printer": "ZDesigner ZT610-600dpi ZPL",
+          "NamedDataSources": {
+              "SN": "1159"},
+            "SaveAfterPrint": true
+          }
+        },
+      });
+      const data = await response.json();      
+      if (data.success) {
+        console.log("ok");
+      } else {
+        throw new Error("Failed to add order");
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -150,6 +180,9 @@ const Login = () => {
                       >
                         Đăng nhập
                       </button>
+                      <button
+                        onClick={fetchPayment}
+                      >Gửi</button>
                     </div>
 
                     <div className="mt-4">
