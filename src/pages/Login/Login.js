@@ -34,15 +34,29 @@ const Login = () => {
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*',
         },
-        body: {
-          "PrintBTWAction": {
-            "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
-            "Printer": "ZDesigner ZT610-600dpi ZPL",
-          "NamedDataSources": {
-              "SN": "1159"},
-            "SaveAfterPrint": true
-          }
-        },
+        body : {
+          "ActionGroup": {
+            "Actions": [
+              {
+                "PrintBTWAction": {
+                "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
+                "Printer": "ZDesigner ZT610-600dpi ZPL",
+                "NamedDataSources": {
+                  "SN": "1159"},
+                "SaveAfterPrint": true
+                }
+              },
+              {
+                "RunAsUserActions": {
+                   "Credentials": {
+                    "UserName": "tuantv",
+                    "Password":"123@123a"
+                    }
+                  },
+              }
+              ]
+              }
+        }
       });
       const data = await response.json();      
       if (data.success) {
