@@ -32,11 +32,19 @@ const Login = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` // Nếu bạn cần gửi token trong header
+          'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
           "ActionGroup": {
             "Actions": [
+              {
+                "RunAsUserActions": {
+                  "Credentials": {
+                    "UserName": "tuantv",
+                    "Password": "123@123a"
+                  }
+                }
+              },
               {
                 "PrintBTWAction": {
                   "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
@@ -45,14 +53,6 @@ const Login = () => {
                     "SN": "1159"
                   },
                   "SaveAfterPrint": true
-                }
-              },
-              {
-                "RunAsUserActions": {
-                  "Credentials": {
-                    "UserName": "tuantv",
-                    "Password": "123@123a"
-                  }
                 }
               }
             ]
