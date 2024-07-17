@@ -32,33 +32,35 @@ const Login = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
+          "Authorization": `Bearer ${token}` // Nếu bạn cần gửi token trong header
         },
-        body : {
+        body: JSON.stringify({
           "ActionGroup": {
             "Actions": [
               {
                 "PrintBTWAction": {
-                "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
-                "Printer": "ZDesigner ZT610-600dpi ZPL",
-                "NamedDataSources": {
-                  "SN": "1159"},
-                "SaveAfterPrint": true
+                  "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
+                  "Printer": "ZDesigner ZT610-600dpi ZPL",
+                  "NamedDataSources": {
+                    "SN": "1159"
+                  },
+                  "SaveAfterPrint": true
                 }
               },
               {
                 "RunAsUserActions": {
-                   "Credentials": {
+                  "Credentials": {
                     "UserName": "tuantv",
-                    "Password":"123@123a"
-                    }
-                  },
+                    "Password": "123@123a"
+                  }
+                }
               }
-              ]
-              }
-        }
+            ]
+          }
+        })
       });
-      const data = await response.json();      
+  
+      const data = await response.json();
       if (data.success) {
         console.log("ok");
       } else {
@@ -68,6 +70,7 @@ const Login = () => {
       console.error("Error fetching orders:", error);
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
