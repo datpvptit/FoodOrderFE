@@ -18,6 +18,11 @@ const Login = () => {
     });
   }, [dispatch]);
 
+  // khai 1907
+  const [ip, setIp] = useState('');
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+
   const navigate = useNavigate(); // Sửa đổi tại đây
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -25,13 +30,19 @@ const Login = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+
   const fetchPayment = async (listOrderId) => {
+    console.log('IP:', ip);
+    console.log('User:', user);
+    console.log('Pass:', pass);
     try {
+      const encodedCredentials = window.btoa(`${user}:${pass}`);
+      console.log("vvk encodedCredentials", encodedCredentials);
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info", {
+      const response = await fetch(`http://${ip}:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info`, {
         method: "POST",
         headers: {
-          "Authorization": "Basic dHVhbnR2OjEyM0AxMjNh",
+          "Authorization": `Basic ${encodedCredentials}`,
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*'
         },
@@ -65,12 +76,17 @@ const Login = () => {
   };
 
   const fetchPayment2 = async (listOrderId) => {
+    console.log('IP:', ip);
+    console.log('User:', user);
+    console.log('Pass:', pass);
     try {
+      const encodedCredentials = window.btoa(`${user}:${pass}`);
+      console.log("vvk encodedCredentials", encodedCredentials);
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://localhost:5159/api/actions?Status=WaitingToRun%2CRunning%2CRanToCompletion%2CCanceled%2CFaulted", {
+      const response = await fetch(`http://${ip}:5159/api/actions?Status=WaitingToRun%2CRunning%2CRanToCompletion%2CCanceled%2CFaulted`, {
         method: "GET",
         headers: {
-          "Authorization": "Basic QWRtaW46MTIzQDEyM2E=",
+          "Authorization": `Basic ${encodedCredentials}`,
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*'
         }
@@ -214,6 +230,29 @@ const Login = () => {
                       >
                         Đăng nhập
                       </button>
+                      <div>
+                        <input
+                          type="text"
+                          id="ip"
+                          value={ip}
+                          onChange={(e) => setIp(e.target.value)}
+                          placeholder="Enter IP"
+                        />
+                        <input
+                          type="text"
+                          id="user"
+                          value={user}
+                          onChange={(e) => setUser(e.target.value)}
+                          placeholder="Enter Username"
+                        />
+                        <input
+                          type="password"
+                          id="pass"
+                          value={pass}
+                          onChange={(e) => setPass(e.target.value)}
+                          placeholder="Enter Password"
+                        />
+                      </div>
                       <button
                         onClick={fetchPayment}
                       >POTS</button>
