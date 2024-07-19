@@ -31,6 +31,7 @@ const Login = () => {
       const response = await fetch("http://localhost:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info", {
         method: "POST",
         headers: {
+          "Authorization": "Basic dHVhbnR2OjEyM0AxMjNh",
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*'
         },
@@ -38,19 +39,11 @@ const Login = () => {
           "ActionGroup": {
             "Actions": [
               {
-                "RunAsUserActions": {
-                  "Credentials": {
-                    "UserName": "tuantv",
-                    "Password": "123@123a"
-                  }
-                }
-              },
-              {
                 "PrintBTWAction": {
                   "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
                   "Printer": "ZDesigner ZT610-600dpi ZPL",
                   "NamedDataSources": {
-                    "SN": "1159"
+                    "SN": "0931"
                   },
                   "SaveAfterPrint": true
                 }
@@ -59,7 +52,7 @@ const Login = () => {
           }
         })
       });
-  
+
       const data = await response.json();
       if (data.success) {
         console.log("ok");
@@ -70,7 +63,31 @@ const Login = () => {
       console.error("Error fetching orders:", error);
     }
   };
-  
+
+  const fetchPayment2 = async (listOrderId) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch("http://localhost:5159/api/actions?Status=WaitingToRun%2CRunning%2CRanToCompletion%2CCanceled%2CFaulted", {
+        method: "GET",
+        headers: {
+          "Authorization": "Basic QWRtaW46MTIzQDEyM2E=",
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*'
+        }
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log("ok");
+      } else {
+        throw new Error("Failed to fetch orders");
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -199,7 +216,10 @@ const Login = () => {
                       </button>
                       <button
                         onClick={fetchPayment}
-                      >Gửi</button>
+                      >POTS</button>
+                      <button
+                        onClick={fetchPayment2}
+                      >GET</button>
                     </div>
 
                     <div className="mt-4">
