@@ -39,7 +39,7 @@ const Login = () => {
       const encodedCredentials = window.btoa(`${user}:${pass}`);
       console.log("vvk encodedCredentials", encodedCredentials);
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`http://${ip}:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info`, {
+      const response = await fetch(`${ip}:5159/api/actions?KeepStatus=60m&Wait=15s&MessageCount=200&MessageSeverity=Info`, {
         method: "POST",
         headers: {
           "Authorization": `Basic ${encodedCredentials}`,
@@ -47,19 +47,13 @@ const Login = () => {
           'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-          "ActionGroup": {
-            "Actions": [
-              {
-                "PrintBTWAction": {
-                  "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
-                  "Printer": "ZDesigner ZT610-600dpi ZPL",
-                  "NamedDataSources": {
-                    "SN": "0931"
-                  },
-                  "SaveAfterPrint": true
-                }
-              }
-            ]
+          "PrintBTWAction": {
+            "DocumentFile": "d:\\BarcodeBTW\\Serial.btw",
+            "Printer": "ZDesigner ZT610-600dpi ZPL",
+            "NamedDataSources": {
+              "SN": "0931"
+            },
+            "SaveAfterPrint": true
           }
         })
       });
@@ -75,6 +69,7 @@ const Login = () => {
     }
   };
 
+  // khai 1907
   const fetchPayment2 = async (listOrderId) => {
     console.log('IP:', ip);
     console.log('User:', user);
@@ -83,7 +78,7 @@ const Login = () => {
       const encodedCredentials = window.btoa(`${user}:${pass}`);
       console.log("vvk encodedCredentials", encodedCredentials);
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`http://${ip}:5159/api/actions?Status=WaitingToRun%2CRunning%2CRanToCompletion%2CCanceled%2CFaulted`, {
+      const response = await fetch(`${ip}:5159/api/actions?Status=WaitingToRun%2CRunning%2CRanToCompletion%2CCanceled%2CFaulted`, {
         method: "GET",
         headers: {
           "Authorization": `Basic ${encodedCredentials}`,
@@ -230,6 +225,7 @@ const Login = () => {
                       >
                         Đăng nhập
                       </button>
+                      {/* khai */}
                       <div>
                         <input
                           type="text"
